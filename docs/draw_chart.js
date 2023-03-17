@@ -1,25 +1,12 @@
 google.charts.load('current', {'packages':['bar', 'corechart']});
 google.charts.setOnLoadCallback(drawStuff);
 
-function drawStuff() {
-    var data = new google.visualization.arrayToDataTable([
-    ["Technique", "Usage"],
-    ["LDA", 1],
-    ["QDA", 1],
-    ["KNN", 4],
-    ["DT", 3],
-    ["RF", 7],
-    ["NB", 2],
-    ["AdaBoost", 2],
-    ["SVM", 6],
-    ["LR", 1],
-    ["GB", 1],
-    ["XgBoost", 1],
-    ["Boosted", 1],
-    ["HBM", 1],
-    ["KD", 1],
-    ["DD", 1]
-    ]);
+async function drawStuff() {
+    file_name = './ML_techniques.json'
+    data = await fetch(file_name);
+    data = await data.json();
+
+    var data = new google.visualization.arrayToDataTable(data);
 
     data.sort([{column: 0}]);
 
