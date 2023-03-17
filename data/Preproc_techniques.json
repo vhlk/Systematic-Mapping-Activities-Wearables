@@ -1,0 +1,9 @@
+[
+    ["Technique", "Usage"],
+    ["Noise reduction", 11],
+    ["Downsampling", 3],
+    ["Normalization", 14],
+    ["Balancing", 2],
+    ["Missing values", 2],
+    ["Class removal", 7]
+]
