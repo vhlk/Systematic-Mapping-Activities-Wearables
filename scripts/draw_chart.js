@@ -1,6 +1,8 @@
 google.charts.load('current', {'packages':['bar', 'corechart']});
 google.charts.setOnLoadCallback(drawStuff);
 
+MAX_NAME_LENGTH = 25;
+
 function drawStuff() {
     var btns = document.getElementById('btn-group-chart-type');
     btns.onclick = async function (e) {
@@ -8,6 +10,9 @@ function drawStuff() {
             let checked_radio = document.querySelector('input[name="data"]:checked');
 
             let data = await load_data(checked_radio.value);
+
+            data = ellipsis_data(data, MAX_NAME_LENGTH);
+            data = new google.visualization.arrayToDataTable(data)
 
             if (e.target.id === "bar_chart") {
                 var options = {
@@ -39,6 +44,14 @@ function drawStuff() {
     }
 };
 
+function truncate(str, n){
+    return (str.length > n) ? str.substring(0, n-1) + '...' : str;
+};
+
+function ellipsis_data(data, n) {
+    return data.map(elem => [truncate(elem[0], n), elem[1]]);
+}
+
 async function load_data(fileName) {    
     let file_name = "./data/" + fileName;
     let data = await fetch(file_name);
@@ -60,5 +73,5 @@ async function load_data(fileName) {
 
     data = [header, ...data_temp];
 
-    return new google.visualization.arrayToDataTable(data);
+    return data;
 }
