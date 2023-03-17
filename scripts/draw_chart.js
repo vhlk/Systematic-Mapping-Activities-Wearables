@@ -68,7 +68,9 @@ async function load_data(fileName) {
 
     data_temp.length = Math.min(max_number_items, data_temp.length);
 
-    if (num_others > 0)
+    let show_others = document.getElementById("checkbox_show_others").checked;
+
+    if (num_others > 0 && show_others)
         data_temp = [...data_temp, ["Other", num_others]];
 
     data = [header, ...data_temp];
