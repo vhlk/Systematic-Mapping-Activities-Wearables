@@ -23,7 +23,7 @@ function drawStuff() {
                     bars: 'horizontal', // Required for Material Bar Charts.
                     axes: {
                         x: {
-                        0: { side: 'bottom', label: 'Usage'} // Top x-axis.
+                        0: { side: 'bottom', label: data.bf[1]["label"]} // Top x-axis.
                         }
                     },
                     bar: { groupWidth: "90%" }
