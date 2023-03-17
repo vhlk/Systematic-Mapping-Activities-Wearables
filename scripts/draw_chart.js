@@ -49,7 +49,7 @@ function truncate(str, n){
 };
 
 function ellipsis_data(data, n) {
-    return data.map(elem => [truncate(elem[0], n), elem[1]]);
+    return data.map((elem, i) => i == 0 ? elem : [truncate(elem[0], n), elem[1]]);
 }
 
 async function load_data(fileName) {    
