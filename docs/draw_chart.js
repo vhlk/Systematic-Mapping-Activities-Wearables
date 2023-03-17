@@ -6,7 +6,7 @@ function drawStuff() {
     btns.onclick = async function (e) {
         if (e.target.tagName === 'BUTTON') {
             checked_radio = document.querySelector('input[name="data"]:checked');
-            file_name = checked_radio.value;
+            file_name = "../data/" + checked_radio.value;
             data = await fetch(file_name);
             data = await data.json();
 
