@@ -5,14 +5,9 @@ function drawStuff() {
     var btns = document.getElementById('btn-group-chart-type');
     btns.onclick = async function (e) {
         if (e.target.tagName === 'BUTTON') {
-            checked_radio = document.querySelector('input[name="data"]:checked');
-            file_name = "./data/" + checked_radio.value;
-            data = await fetch(file_name);
-            data = await data.json();
+            let checked_radio = document.querySelector('input[name="data"]:checked');
 
-            var data = new google.visualization.arrayToDataTable(data);
-
-            data.sort([{column: 0}]);
+            let data = await load_data(checked_radio.value);
 
             if (e.target.id === "bar_chart") {
                 var options = {
@@ -43,3 +38,27 @@ function drawStuff() {
         }
     }
 };
+
+async function load_data(fileName) {    
+    let file_name = "./data/" + fileName;
+    let data = await fetch(file_name);
+    data = await data.json();
+
+    let max_number_items = document.getElementById("max_items_slider").value;
+
+    let header = data[0];
+    let data_temp = data.slice(1);
+
+    data_temp.sort((a, b) => a[1] < b[1]);
+
+    let num_others = data_temp.reduce((prev, curr, i) => i >= max_number_items ? prev + curr[1] : prev, 0);
+
+    data_temp.length = Math.min(max_number_items, data_temp.length);
+
+    if (num_others > 0)
+        data_temp = [...data_temp, ["Other", num_others]];
+
+    data = [header, ...data_temp];
+
+    return new google.visualization.arrayToDataTable(data);
+}
