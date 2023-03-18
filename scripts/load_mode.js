@@ -14,6 +14,7 @@ function select_search_mode(mode) {
     if (mode == "Datasets") {        
         document.getElementById("Datasets_container").style.display = "";
         document.getElementById("Techniques_container").style.display = "none";
+        load_dataset_activities_data(true);
     } else if (mode == "Techniques") {
         document.getElementById("Datasets_container").style.display = "none";
         document.getElementById("Techniques_container").style.display = "";
