@@ -44,5 +44,19 @@ async function search_articles_by_techniques() {
 function addTable(selected_articles) {
     let table_wrapper = document.getElementById("Search_articles_results_table_wrapper");
     table_wrapper.style.display = "";
-    table_wrapper.querySelector("#Search_articles_results tbody").innerHTML = selected_articles.map(article => `<tr><td>${article["Title"]}</td><td><a href="${article["Link"]}">${article["Link"]}</a></td><td>${article["Authors"]}</td><td>${article["openly available code"]}</td><td>${article["lightweight model"]}</td><td>${article["Year"]}</td></tr>`).join('');
+    let table_row = function (article) {
+        let open_available_code = article["openly available code"] != "-" && article["openly available code"] != "" ?
+                                    `<a href="${article['openly available code']}">${article['openly available code']}</a>` :
+                                    `${article['openly available code']}`;
+
+        return `<tr>
+            <td>${article["Title"]}</td>
+            <td><a href="${article["Link"]}">${article["Link"]}</a></td>
+            <td>${article["Authors"]}</td>
+            <td>${open_available_code}</td>
+            <td>${article["lightweight model"]}</td>
+            <td>${article["Year"]}</td>
+        </tr>`
+    };
+    table_wrapper.querySelector("#Search_articles_results tbody").innerHTML = selected_articles.map(table_row).join('');
   }
