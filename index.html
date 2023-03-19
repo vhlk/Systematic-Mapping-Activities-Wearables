@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<link rel="stylesheet" type="text/css" href="css/table.css" />
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" defer></script>
+<script type="text/javascript" src="scripts/draw_chart.js" defer></script>
+<script type="text/javascript" src="scripts/load_mode.js" defer></script>
+<script type="text/javascript" src="scripts/dataset_search_bar.js" defer></script>
+
+<div style="border:2px solid black; padding: 10px;">
+    <p>Please select what you want:</p>
+    <div id="chosen_mode">
+        <input type="radio" id="Graphs" name="mode" value="Graphs" onClick="select_mode(this.value)" autocomplete="off">Show graphs</input>
+        <input type="radio" id="Search" name="mode" value="Search" onClick="select_mode(this.value)" autocomplete="off">Show search</input>
+    </div>
+    <br/>
+</div>
+<div id="Graphs_container" style="display: none">
+    <p>Please select the data you want:</p>
+    <div id="chosen_data">
+        <input type="radio" autocomplete="off" id="ML_Tech" name="data" value="ML_techniques.json">Classical Machine Learning Techniques</input>
+        <input type="radio" autocomplete="off" id="Deep_Tech" name="data" value="Deep_techniques.json">Deep Learning Techniques</input>
+        <input type="radio" autocomplete="off" id="Preproc_Tech" name="data" value="Preproc_techniques.json">Preprocessing Techniques</input>
+        <input type="radio" autocomplete="off" id="Feat_extr_Tech" name="data" value="Feat_extraction.json">Feature extraction Techniques</input>
+        <input type="radio" autocomplete="off" id="Datasets" name="data" value="Datasets.json">Datasets</input>
+        <input type="radio" autocomplete="off" id="Activities" name="data" value="Activities.json">Activities</input>
+        <input type="radio" autocomplete="off" id="Num_Activities" name="data" value="Num_activities_rec.json">Number of activities recognized</input>
+        <input type="radio" autocomplete="off" id="Sensors" name="data" value="Sensors_used.json">Sensors used</input>
+    </div>
+    <br/>
+    <div class="slider_div">
+        <p>Number max of items to display:</p>
+        <text>1</text>
+        <input type="range" min="1" max="15" value="7" class="slider" id="max_items_slider"/>
+        <text>15</text>
+        <text>&emsp;</text><input type="checkbox" autocomplete="off" id="checkbox_show_others" checked>Show others</input>
+    </div>
+    <br/>
+    <div id="btn-group-chart-type">
+        <button class="button button-blue" id="bar_chart">Bar Chart</button>
+        <button class="button button-blue" id="pie_chart">Pie Chart</button>
+    </div>
+    <br/><br/>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+</div>
+<div id="Search_container" style="display: none">
+    <br/>
+    <div style="border:2px solid black; padding: 10px;">
+        <p>Please select what you want to search:</p>
+        <div id="search_mode">
+            <input type="radio" autocomplete="off" id="Datasets" name="search_mode" value="Datasets" onClick="select_search_mode(this.value)">Show Datasets by activity</input>
+            <input type="radio" autocomplete="off" id="Techniques" name="search_mode" value="Techniques" onClick="select_search_mode(this.value)">Show Techniques by type</input>
+        </div>
+        <br/>
+    </div>
+    <br/>
+
+    <div id="Datasets_container" style="display: none">
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" oninput="searchInputChange()" list="suggestions">
+        <datalist id="suggestions"></datalist>
+        <button onclick='addSelectedSuggestionToList(document.getElementById("search").value)'>Add</button>
+        <button onclick='search_datasets()'>Search</button>
+        <input type="checkbox" id="use_deafult_activities" name="use_deafult_activities" onchange="load_dataset_activities_data(this.checked)" autocomplete="off" checked>Use cleaned activities (default)</input>
+
+        <ul id="selected-suggestions"></ul>
+        <div class="table-wrapper" style="display: none" id="Search_datasets_results_table_wrapper">
+            <table class="fl-table" id="Search_datasets_results">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Recognized Activities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="Techniques_container" style="display: none; border:2px solid black; padding: 10px;">
+        <p>Choose the techiniques (1 or more) you are looking for in a article:</p>
+        <div style="display: inline-block"><input type="checkbox" id="show_CNN">CNN</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_LSTM">LSTM</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_GRU">GRU</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_Attention Layer">Attention Layer</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_MLP">MLP</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_LDA">LDA</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_QDA">QDA</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_KNN">KNN</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_DT">DT</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_RF">RF</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_Naive Bayes">Naive Bayes</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_AdaBoost">AdaBoost</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_SVM">SVM</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_LR">LR</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_GB">GB</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_XgBoost">XgBoost</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_Boosted C5.0">Boosted C5.0</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_Histogram Based Measures">Histogram Based Measures</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_Kernel Density Estimate">Kernel Density Estimate</input></div>
+        <div style="display: inline-block"><text>&emsp;</text><input type="checkbox" autocomplete="off" id="show_Estimations Using Discrete Distributions">Estimations Using Discrete Distributions</input></div>
+        <br/><br/>
+        <button onClick="search_articles_by_techniques()">Search</button>
+
+        <div class="table-wrapper" style="display: none" id="Search_articles_results_table_wrapper">
+            <table class="fl-table" id="Search_articles_results">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Link</th>
+                        <th>Authors</th>
+                        <th>Has openly available code</th>
+                        <th>Consider lightweight model</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<link rel="icon" type="image/x-icon" href="./images/favicon.ico?">
+</html>

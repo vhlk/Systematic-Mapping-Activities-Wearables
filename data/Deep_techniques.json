@@ -1,0 +1,8 @@
+[
+    ["Technique", "Usage"],
+    ["CNN", 28],
+    ["LSTM", 14],
+    ["GRU", 5],
+    ["Attention Layer", 1],
+    ["MLP", 4]
+]

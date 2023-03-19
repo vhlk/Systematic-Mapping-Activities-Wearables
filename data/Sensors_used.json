@@ -1,0 +1,12 @@
+[
+    [ "Sensor type", "Usage" ],
+    [ "PPG", 4 ],
+    [ "ACC", 44 ],
+    [ "EDA", 1 ],
+    [ "GYRO", 27 ],
+    [ "MAG", 7 ],
+    [ "HR", 1 ],
+    [ "COMPASS", 1 ],
+    [ "ECG", 1 ],
+    [ "TEMP", 1 ]
+]
