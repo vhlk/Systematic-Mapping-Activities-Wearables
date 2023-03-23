@@ -30,7 +30,7 @@ function drawStuff() {
                 };
 
                 var chart = new google.charts.Bar(document.getElementById('chart_div'));
-                chart.draw(data, options);
+                chart.draw(data, google.charts.Bar.convertOptions(options));
             }
             if (e.target.id === "pie_chart") {
                 var options = {
