@@ -1,5 +1,5 @@
 [
-    [ "Activity", "Number of times" ],
+    [ "Activity", "Number of datasets" ],
     [ "walk", 21 ],
     [ "sitting", 18 ],
     [ "standing", 16 ],
